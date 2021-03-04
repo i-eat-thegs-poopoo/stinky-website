@@ -1,26 +1,8 @@
-<canvas id="canvas" width="200" height="100" style="border:1px solid #000000;">
+<canvas id="canvas" width="1500" height="700" style="border:1px solid #000000;">
 </canvas>
 <script>
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-const width = 45
-const height = 45
-
-function coordsToText(loc) {
-	const empty = '   '
-	const point = ' # '
-	const coordx = Math.min(Math.max(loc[0],1), width);
-	const coordy = Math.min(Math.max(loc[1],1), height);
-	const prev = ('|' + empty.repeat(width) + '|\n').repeat(coordy - 1) + '|' + empty.repeat(coordx - 1)
-	const next = empty.repeat(width - coordx) + '|' + ('\n|' + empty.repeat(width) + '|').repeat(height - coordy)
-	const canvas = '|' + '---'.repeat(width) + '|\n' + prev + point + next + '\n|' + '---'.repeat(width) + '|'
-	return canvas
-}
-
-function sunToText (text) {
-	return text.slice(0,Math.floor(text.length / 2)) + 'O' + text.slice(Math.ceil(text.length / 2),text.length)
 }
 
 function addVectors(vec1,vec2) {
@@ -41,12 +23,8 @@ function gravityCenter(loc) {
 	return gravityVectorNew
 }
 
-console.log(coordsToText([8,12]))
-
-let location = [24,36]
+let location = [350,100]
 let inertia = [0.8,0]
-
-console.log(`location: (${location}), inertia: <${inertia}>, gravity: <${gravityCenter(location)}>`)
 
 async function orbit() {
 	for(i = 0; i < 250; i++) {
@@ -54,8 +32,11 @@ async function orbit() {
 		inertia = addVectors(inertia,gravityCenter(location))
 		location = addVectors(location,inertia)
 		showLocation = [Math.round(location[0]),Math.round(location[1])]
-		console.log(sunToText(coordsToText(showLocation)))
-		console.log(`location: (${location}), inertia: <${inertia}>`)
+		var planet = document.getElementById('canvas');
+		var ctx = planet.getContext('2d');
+		ctx.beginPath();
+		ctx.arc(95, 50, 40, 0, 2 * Math.PI);
+		ctx.stroke();
 	}
 }
 
