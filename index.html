@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Orbit Simulation</title>
     <style>
     	* { padding: 0; margin: 0; }
@@ -10,7 +11,7 @@
 </head>
 <body>
 
-<canvas id="myCanvas" width="1277" height="969"></canvas>
+<canvas id="myCanvas" width="480" height="320"></canvas>
 
 <script>
     var canvas = document.getElementById("myCanvas");
@@ -107,6 +108,37 @@
         loc = addVectors(loc, inertia)
         
     };
+
+    var mousePos1 = {
+        x: 0,
+        y: 0
+    }
+
+    function startCreate () {
+        let e = window.event
+        mousePos1 = {
+            x: e.clientX,
+            y: e.clientY
+        }
+        mousePos1 = multiplyVector(mousePos1, 1 / scale)
+    }
+
+    function endCreate () {
+        let e = window.event
+        let mousePos2 = {
+            x: e.clientX,
+            y: e.clientY
+        }
+        let mousePosToSun = subtractVectors(multiplyVector(mousePos1, scale), sunLoc)
+        mousePosToSun = multiplyVector(mousePosToSun, scale)
+        mousePos2 = multiplyVector(mousePos2, 1 / scale)
+        loc = addVectors(sunLoc, mousePosToSun)
+        inertia = multiplyVector(subtractVectors(mousePos2, mousePos1), 0.03)
+    }
+
+    document.addEventListener("mousedown", startCreate);
+    document.addEventListener("mouseup", endCreate);
+
     setInterval(draw, 10);
 </script>
 
