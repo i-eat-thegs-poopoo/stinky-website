@@ -133,7 +133,7 @@
         mousePosToSun = multiplyVector(mousePosToSun, scale)
         mousePos2 = multiplyVector(mousePos2, 1 / scale)
         loc = addVectors(sunLoc, mousePosToSun)
-        inertia = multiplyVector(subtractVectors(mousePos2, mousePos1), 0.03)
+        inertia = multiplyVector(subtractVectors(mousePos2, mousePos1), 0.02)
     }
 
     document.addEventListener("mousedown", startCreate);
